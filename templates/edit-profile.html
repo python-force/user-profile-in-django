@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block body %}
+
+    <h1>Edit {{ profile.first_name }} {{ profile.last_name }} Profile</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="button" value="Save">
+    </form>
+
+{% endblock %}

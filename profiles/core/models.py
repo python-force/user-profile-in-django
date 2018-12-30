@@ -1,6 +1,8 @@
+from django.urls import reverse
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+
 # import pytz
 from django.utils.text import slugify
 
@@ -20,3 +22,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
+
+    def get_absolute_url(self):
+        return reverse('profile', args=[str(self.slug)])

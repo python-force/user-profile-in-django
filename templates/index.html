@@ -4,6 +4,10 @@
 
 {% block body %}
 
-Hello
+{% for profile in profiles %}
+
+    <a href="{{ profile.get_absolute_url }}">{{ profile.first_name }} {{ profile.last_name }}</a>
+
+{% endfor %}
 
 {% endblock %}
