@@ -22,6 +22,7 @@ from profiles.accounts import views as accounts_views
 
 urlpatterns = [
     path('accounts/', include('profiles.accounts.urls', namespace='accounts')),
+    path('profiles/<slug:slug>/', core_views.profile, name="profile"),
     path('', core_views.index, name="index"),
     path('admin/', admin.site.urls),
 ]
