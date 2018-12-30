@@ -12,10 +12,10 @@ class Profile(models.Model):
     date_of_birth = models.DateField(max_length=12, blank=True)
     bio = models.TextField(blank=True)
     avatar = models.ImageField(blank=True)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify("{}-{}".format(self.first_name.lower(), self.last_name.lower()))
+        self.slug = slugify("{}-{}-{}".format(self.first_name.lower(), self.last_name.lower(), self.id))
         super().save(*args, **kwargs)
 
     def __str__(self):
