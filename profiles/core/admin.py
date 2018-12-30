@@ -3,6 +3,6 @@ from .models import Profile
 
 class ProfileAdmin(admin.ModelAdmin):
     # ...
-    pass
+    readonly_fields = ('slug',)
 
 admin.site.register(Profile, ProfileAdmin)
