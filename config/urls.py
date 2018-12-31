@@ -23,6 +23,7 @@ from profiles.accounts import views as accounts_views
 urlpatterns = [
     path(r'markdownx/', include('markdownx.urls')),
     path('accounts/', include('profiles.accounts.urls', namespace='accounts')),
+    path('profiles/<slug:profile_slug>/change-password', core_views.change_password, name="change-password"),
     path('profiles/<slug:profile_slug>/edit', core_views.edit_profile, name="edit-profile"),
     path('profiles/<slug:profile_slug>/', core_views.profile, name="profile"),
     path('', core_views.index, name="index"),
