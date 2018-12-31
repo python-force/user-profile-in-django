@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'profiles.core',
     'profiles.accounts',
+    'bootstrap_datepicker_plus',
+    'markdownx',
+    'markdown_deux',
 ]
 
 MIDDLEWARE = [

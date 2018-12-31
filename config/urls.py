@@ -21,6 +21,7 @@ from profiles.core import views as core_views
 from profiles.accounts import views as accounts_views
 
 urlpatterns = [
+    path(r'markdownx/', include('markdownx.urls')),
     path('accounts/', include('profiles.accounts.urls', namespace='accounts')),
     path('profiles/<slug:profile_slug>/edit', core_views.edit_profile, name="edit-profile"),
     path('profiles/<slug:profile_slug>/', core_views.profile, name="profile"),

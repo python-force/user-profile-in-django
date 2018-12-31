@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static markdown_deux_tags %}
 
 
 {% block body %}
@@ -8,6 +8,6 @@
 {{ profile.last_name }}<br>
 {{ profile.email }}<br>
 {{ profile.date_of_birth }}<br>
-{{ profile.display_bio }}
+{{ profile.display_bio|markdown }}
 
 {% endblock %}

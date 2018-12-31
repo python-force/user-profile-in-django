@@ -1,9 +1,12 @@
+from bootstrap_datepicker_plus import DatePickerInput
+from markdownx.fields import MarkdownxFormField
 from django import forms
 from .models import Profile
 from django.core.validators import MinLengthValidator
 
+
 class ProfileForm(forms.ModelForm):
-    bio = forms.CharField(widget=forms.Textarea, validators=[MinLengthValidator(10)])
+    bio = MarkdownxFormField(validators=[MinLengthValidator(10)])
     class Meta:
         model = Profile
         fields = [
@@ -14,6 +17,9 @@ class ProfileForm(forms.ModelForm):
             'date_of_birth',
             'bio',
         ]
+        widgets = {
+            'date_of_birth': DatePickerInput(),  # default date-format %m/%d/%Y will be used
+        }
 
     def clean(self):
         cleaned_data = super().clean()
