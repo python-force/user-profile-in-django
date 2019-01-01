@@ -1,11 +1,11 @@
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import check_password
 from bootstrap_datepicker_plus import DatePickerInput
+from zxcvbn_password.fields import PasswordField, PasswordConfirmationField
 from markdownx.fields import MarkdownxFormField
 from django import forms
 from .models import Profile
 from django.core.validators import MinLengthValidator
-from django.shortcuts import get_object_or_404
 
 
 class ProfileForm(forms.ModelForm):
@@ -60,6 +60,8 @@ class CustomChangePasswordForm(PasswordChangeForm):
         print(self.user.profile.last_name.lower())
 
     class Meta:
+        new_password1 = PasswordField()
+        new_password2 = PasswordConfirmationField(confirm_with="new_password1")
         fields = [
             'old_password',
             'new_password1',
