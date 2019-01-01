@@ -38,7 +38,17 @@ class CustomChangePasswordForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['new_password2'].help_text = ''
+        help_text = "<ul>" \
+                    "<li>Your password can't be too similar to your other personal information</li>" \
+                    "<li>Your password must contain at least 14 characters</li>" \
+                    "<li>Your password can't be a commonly used password</li>" \
+                    "<li>Your password can't be entirely numeric</li>" \
+                    "<li>Your password must not be the same as the current password</li>" \
+                    "<li>Your password must use of both uppercase and lowercase letters</li>" \
+                    "<li>Your password must include of one or more numerical digits</li>" \
+                    "<li>Your password must include of special characters, such as @, #, $</li>" \
+                    "</ul>"
+        self.fields['new_password1'].help_text = help_text
 
     class Meta:
         fields = [
@@ -52,7 +62,7 @@ class CustomChangePasswordForm(PasswordChangeForm):
         cleaned_data = super().clean()
 
         confirm_password = cleaned_data.get('old_password')
-        if not check_password(confirm_password, [MISSING VARIABLE]):
+        if not check_password(confirm_password, self.user.password):
             raise forms.ValidationError('That is not the old password')
 
         new_password1 = cleaned_data.get('new_password1')
@@ -84,6 +94,19 @@ class CustomChangePasswordForm(PasswordChangeForm):
 
         if not check:
             raise forms.ValidationError('Password has no special characters, such as @, #, $.')
+
+
+        first_name = self.user.profile.first_name.lower()
+        last_name = self.user.profile.last_name.lower()
+        similar_pass = [first_name, last_name]
+        name_password = new_password1.lower()
+        check = False
+        for name in similar_pass:
+            if name in name_password:
+                check = True
+
+        if not check:
+            raise forms.ValidationError('Password contains your first name or last name.')
 
 
 
