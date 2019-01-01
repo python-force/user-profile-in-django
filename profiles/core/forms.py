@@ -69,6 +69,29 @@ class CustomChangePasswordForm(PasswordChangeForm):
             'new_password2',
         ]
 
+    def clean_new_password1(self):
+        new_password1 = self.cleaned_data.get('new_password1')
+
+        characters = set(new_password1)
+
+        lower = any(letter.islower() for letter in characters)
+        upper = any(letter.isupper() for letter in characters)
+        digit = any(letter.isdigit() for letter in characters)
+
+        if not upper:
+            raise forms.ValidationError('Password has no upper characters')
+
+        if not lower:
+            raise forms.ValidationError('Password has no lower characters')
+
+        if not digit:
+            raise forms.ValidationError('Password has no numerical character')
+
+    """
+    def clean_new_password1(self):
+        data = self.cleaned_data['new_password1']
+        if len(data) < 14:
+            raise forms.ValidationError('Password is too short')
 
     def clean(self):
         cleaned_data = super().clean()
@@ -78,9 +101,6 @@ class CustomChangePasswordForm(PasswordChangeForm):
             raise forms.ValidationError('That is not the old password')
 
         new_password1 = cleaned_data.get('new_password1')
-
-        if len(new_password1) < 14:
-            raise forms.ValidationError('Password is too short')
 
         characters = set(new_password1)
 
@@ -115,4 +135,6 @@ class CustomChangePasswordForm(PasswordChangeForm):
 
         if last_name in new_password1.lower():
             raise forms.ValidationError('Password contains your first name or last name.')
+            
+    """
 
