@@ -13,6 +13,11 @@ def index(request):
     profiles = Profile.objects.all().filter(user_id=request.user.id)
     return render(request, 'index.html', {'profiles': profiles})
 
+def profiles(request):
+    """Load Homepage"""
+    profiles = Profile.objects.all().filter(user_id=request.user.id)
+    return render(request, 'index.html', {'profiles': profiles})
+
 @login_required
 def profile(request, profile_slug):
     """Load Profile"""

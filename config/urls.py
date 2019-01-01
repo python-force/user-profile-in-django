@@ -26,6 +26,7 @@ urlpatterns = [
     path('profiles/<slug:profile_slug>/change-password', core_views.change_password, name="change-password"),
     path('profiles/<slug:profile_slug>/edit', core_views.edit_profile, name="edit-profile"),
     path('profiles/<slug:profile_slug>/', core_views.profile, name="profile"),
+    path('profiles/', core_views.profiles, name="profiles"),
     path('', core_views.index, name="index"),
     path('admin/', admin.site.urls),
 ]

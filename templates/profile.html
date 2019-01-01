@@ -9,6 +9,8 @@
 {{ profile.email }}<br>
 {{ profile.date_of_birth }}<br>
 {{ profile.display_bio|markdown }}
-{{ profile.user.password }}
+
+<a href="{% url "edit-profile" profile.slug %}" class="button">Edit</a>
+<a href="{% url "change-password" profile.slug %}" class="button">Change Password</a>
 
 {% endblock %}
