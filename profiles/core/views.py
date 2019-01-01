@@ -10,8 +10,7 @@ from .forms import ProfileForm, CustomChangePasswordForm
 
 def index(request):
     """Load Homepage"""
-    user = request.user.id
-    profiles = Profile.objects.get(user_id=user)
+    profiles = Profile.objects.all().filter(user_id=request.user.id)
     return render(request, 'index.html', {'profiles': profiles})
 
 @login_required
