@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import check_password
 from bootstrap_datepicker_plus import DatePickerInput
+from zxcvbn_password import zxcvbn
 from zxcvbn_password.fields import PasswordField, PasswordConfirmationField
 from markdownx.fields import MarkdownxFormField
 from django import forms
