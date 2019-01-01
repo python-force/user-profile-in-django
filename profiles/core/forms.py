@@ -19,6 +19,11 @@ class ProfileForm(forms.ModelForm):
             'email_verify',
             'date_of_birth',
             'bio',
+            'city',
+            'state',
+            'country_of_residence',
+            'favorite_animal',
+            'hobby',
         ]
         widgets = {
             'date_of_birth': DatePickerInput(),  # default date-format %m/%d/%Y will be used
@@ -39,6 +44,7 @@ class CustomChangePasswordForm(PasswordChangeForm):
         super().__init__(*args, **kwargs)
 
         help_text = "<ul>" \
+                    "<li>Your password must not be the same as the current password</li>" \
                     "<li>Your password can't be too similar to your other personal information</li>" \
                     "<li>Your password must contain at least 14 characters</li>" \
                     "<li>Your password can't be a commonly used password</li>" \
@@ -49,6 +55,9 @@ class CustomChangePasswordForm(PasswordChangeForm):
                     "<li>Your password must include of special characters, such as @, #, $</li>" \
                     "</ul>"
         self.fields['new_password1'].help_text = help_text
+
+        print(self.user.profile.first_name.lower())
+        print(self.user.profile.last_name.lower())
 
     class Meta:
         fields = [
@@ -95,18 +104,12 @@ class CustomChangePasswordForm(PasswordChangeForm):
         if not check:
             raise forms.ValidationError('Password has no special characters, such as @, #, $.')
 
-
         first_name = self.user.profile.first_name.lower()
         last_name = self.user.profile.last_name.lower()
-        similar_pass = [first_name, last_name]
-        name_password = new_password1.lower()
-        check = False
-        for name in similar_pass:
-            if name in name_password:
-                check = True
 
-        if not check:
+        if first_name in new_password1.lower():
             raise forms.ValidationError('Password contains your first name or last name.')
 
-
+        if last_name in new_password1.lower():
+            raise forms.ValidationError('Password contains your first name or last name.')
 
