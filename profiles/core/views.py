@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -10,15 +10,17 @@ from .forms import ProfileForm, CustomChangePasswordForm
 
 def index(request):
     """Load Homepage"""
-    profiles = get_list_or_404(Profile)
+    user = request.user.id
+    profiles = Profile.objects.get(user_id=user)
     return render(request, 'index.html', {'profiles': profiles})
 
+@login_required
 def profile(request, profile_slug):
     """Load Profile"""
     profile = get_object_or_404(Profile, slug=profile_slug)
     return render(request, 'profile.html', {'profile':profile})
 
-
+@login_required
 def edit_profile(request, profile_slug):
     profile = get_object_or_404(Profile, slug=profile_slug)
     form = ProfileForm(instance=profile)
@@ -31,7 +33,7 @@ def edit_profile(request, profile_slug):
             return HttpResponseRedirect(profile.get_absolute_url())
     return render(request, "edit-profile.html", {'form':form})
 
-
+@login_required
 def change_password(request, profile_slug):
     if request.method == 'POST':
         form = CustomChangePasswordForm(request.user, request.POST)

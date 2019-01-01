@@ -4,10 +4,10 @@
 
 {% block body %}
 
-{% for profile in profiles %}
-
-    <a href="{{ profile.get_absolute_url }}">{{ profile.first_name }} {{ profile.last_name }}</a>
-
-{% endfor %}
+    {% if profiles %}
+    <a href="{{ profiles.get_absolute_url }}">{{ profiles.first_name }} {{ profiles.last_name }}</a>
+    {% else %}
+    <p>Please login in orther to see your Profile Page</p>
+    {% endif %}
 
 {% endblock %}
