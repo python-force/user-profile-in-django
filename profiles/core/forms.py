@@ -40,6 +40,8 @@ class ProfileForm(forms.ModelForm):
 
 
 class CustomChangePasswordForm(PasswordChangeForm):
+    new_password1 = PasswordField()
+    new_password2 = PasswordConfirmationField(confirm_with="new_password1")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -61,8 +63,6 @@ class CustomChangePasswordForm(PasswordChangeForm):
         print(self.user.profile.last_name.lower())
 
     class Meta:
-        new_password1 = PasswordField()
-        new_password2 = PasswordConfirmationField(confirm_with="new_password1")
         fields = [
             'old_password',
             'new_password1',

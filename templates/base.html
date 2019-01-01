@@ -22,6 +22,7 @@
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="{% static "css/global.css" %}">
+    {% block css %}{% endblock %}
 
     <!-- JS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -34,7 +35,6 @@
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet" type="text/css"/>
     <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
     {{ form.media }}
-    {% block js %}{% endblock %}
 
 </head>
 <body>
