@@ -4,13 +4,32 @@
 
 {% block body %}
 
-{{ profile.first_name }}<br>
-{{ profile.last_name }}<br>
-{{ profile.email }}<br>
-{{ profile.date_of_birth }}<br>
-{{ profile.display_bio|markdown }}
+    <h1>Name: {{ profile.first_name }} {{ profile.last_name }}</h1>
+    <h2>Email: {{ profile.email }}</h2>
+    <p>Date of Birth: {{ profile.date_of_birth }}</p>
+    <hr>
+    <h5>Personal Information</h5>
+    <hr>
+    <h5>BIO</h5>
+    <p>{{ profile.display_bio|markdown }}</p>
 
-<a href="{% url "edit-profile" profile.slug %}" class="button">Edit</a>
-<a href="{% url "change-password" profile.slug %}" class="button">Change Password</a>
+    {% if profile.city %}
+        <p>{{ profile.city }}</p>
+    {% endif %}
+    {% if profile.state %}
+        <p>{{ profile.state }}</p>
+    {% endif %}
+    {% if profile.country_of_residence %}
+        <p>{{ profile.country_of_residence }}</p>
+    {% endif %}
+    {% if profile.favorite_animal %}
+        <p>{{ profile.favorite_animal }}</p>
+    {% endif %}
+    {% if profile.hobby %}
+        <p>{{ profile.hobby }}</p>
+    {% endif %}
+
+    <a href="{% url "edit-profile" profile.slug %}" class="button">Edit</a>
+    <a href="{% url "change-password" profile.slug %}" class="button">Change Password</a>
 
 {% endblock %}
