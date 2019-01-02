@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
+from image_cropping import ImageRatioField
 
 # import pytz
 from django.utils.text import slugify
@@ -16,6 +17,7 @@ class Profile(models.Model):
     date_of_birth = models.DateField(max_length=12)
     bio = models.TextField()
     avatar = models.ImageField(blank=True)
+    avatar_cropping = ImageRatioField('avatar', '430x360')
     city = models.CharField(max_length=255, blank=True)
     state = models.CharField(max_length=255, blank=True)
     country_of_residence = models.CharField(max_length=255, blank=True)

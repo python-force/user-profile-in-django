@@ -1,15 +1,21 @@
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password # - finish this
 from bootstrap_datepicker_plus import DatePickerInput
-from zxcvbn_password import zxcvbn
 from zxcvbn_password.fields import PasswordField, PasswordConfirmationField
 from markdownx.fields import MarkdownxFormField
 from django import forms
 from .models import Profile
 from django.core.validators import MinLengthValidator
 
+from PIL import Image
+from django.core.files import File
+
 
 class ProfileForm(forms.ModelForm):
+    x = forms.FloatField(widget=forms.HiddenInput())
+    y = forms.FloatField(widget=forms.HiddenInput())
+    width = forms.FloatField(widget=forms.HiddenInput())
+    height = forms.FloatField(widget=forms.HiddenInput())
     bio = MarkdownxFormField(validators=[MinLengthValidator(10)])
     class Meta:
         model = Profile
@@ -25,6 +31,11 @@ class ProfileForm(forms.ModelForm):
             'country_of_residence',
             'favorite_animal',
             'hobby',
+            'avatar',
+            'x',
+            'y',
+            'width',
+            'height',
         ]
         widgets = {
             'date_of_birth': DatePickerInput(),  # default date-format %m/%d/%Y will be used
@@ -37,6 +48,22 @@ class ProfileForm(forms.ModelForm):
 
         if email != verify:
             raise forms.ValidationError('Emails do not match')
+
+    def save(self):
+        photo = super().save()
+
+        x = self.cleaned_data.get('x')
+        y = self.cleaned_data.get('y')
+        w = self.cleaned_data.get('width')
+        h = self.cleaned_data.get('height')
+
+        image = Image.open(photo.avatar)
+        cropped_image = image.crop((x, y, w + x, h + y))
+        resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+        resized_image.save(photo.avatar.path)
+
+
+        return photo
 
 
 class CustomChangePasswordForm(PasswordChangeForm):

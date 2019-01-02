@@ -42,8 +42,15 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'markdownx',
     'markdown_deux',
-    'zxcvbn_password'
+    'zxcvbn_password',
+    'easy_thumbnails',
+    'image_cropping',
 ]
+
+from easy_thumbnails.conf import Settings as thumbnail_settings
+THUMBNAIL_PROCESSORS = (
+    'image_cropping.thumbnail_processors.crop_corners',
+) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

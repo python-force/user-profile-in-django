@@ -31,7 +31,7 @@ def edit_profile(request, profile_slug):
     form = ProfileForm(instance=profile)
 
     if request.method == "POST":
-        form = ProfileForm(instance=profile, data=request.POST)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             messages.success(request, "{} {}'s profile updated.".format(form.cleaned_data["first_name"], form.cleaned_data["last_name"]))
