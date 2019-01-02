@@ -87,6 +87,24 @@ class CustomChangePasswordForm(PasswordChangeForm):
         if not digit:
             raise forms.ValidationError('Password has no numerical character')
 
+        special_characters = ["@", "#", "$"]
+        check = False
+        for character in special_characters:
+            if character in new_password1:
+                check = True
+
+        if not check:
+            raise forms.ValidationError('Password has no special characters, such as @, #, $.')
+
+        first_name = self.user.profile.first_name.lower()
+        last_name = self.user.profile.last_name.lower()
+
+        if first_name in new_password1.lower():
+            raise forms.ValidationError('Password contains your first name or last name.')
+
+        if last_name in new_password1.lower():
+            raise forms.ValidationError('Password contains your first name or last name.')
+
     """
     def clean_new_password1(self):
         data = self.cleaned_data['new_password1']
