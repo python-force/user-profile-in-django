@@ -3,13 +3,11 @@ Django==2.1.4
 django-appconf==1.0.2
 django-bootstrap-datepicker-plus==3.0.5
 django-environ==0.4.5
-django-image-cropping==1.2.0
 django-markdown-deux==1.0.5
 django-markdownx==2.0.28
 django-password-strength==1.2.1
 django-passwords==0.3.12
 django-zxcvbn-password==2.0.2
-easy-thumbnails==2.5
 flake8==3.6.0
 flake8-django==0.0.3
 Markdown==3.0.1
