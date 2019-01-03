@@ -16,6 +16,7 @@ class ProfileForm(forms.ModelForm):
     width = forms.FloatField(widget=forms.HiddenInput(), required=False)
     height = forms.FloatField(widget=forms.HiddenInput(), required=False)
     bio = MarkdownxFormField(validators=[MinLengthValidator(10)])
+
     class Meta:
         model = Profile
         fields = [
@@ -37,7 +38,8 @@ class ProfileForm(forms.ModelForm):
             'height',
         ]
         widgets = {
-            'date_of_birth': DatePickerInput(),  # default date-format %m/%d/%Y will be used
+            # default date-format %m/%d/%Y will be used
+            'date_of_birth': DatePickerInput(),
         }
 
     def clean(self):
@@ -63,8 +65,6 @@ class ProfileForm(forms.ModelForm):
             cropped_image = image.crop((x, y, w + x, h + y))
             resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
             resized_image.save(photo.avatar.path)
-
-
         return photo
 
 
@@ -80,14 +80,22 @@ class CustomChangePasswordForm(PasswordChangeForm):
         super().__init__(*args, **kwargs)
 
         help_text = "<ul>" \
-                    "<li>Your password can't be too similar to your other personal information</li>" \
-                    "<li>Your password must contain at least 14 characters</li>" \
-                    "<li>Your password can't be a commonly used password</li>" \
-                    "<li>Your password can't be entirely numeric</li>" \
-                    "<li>Your password must not be the same as the current password</li>" \
-                    "<li>Your password must use of both uppercase and lowercase letters</li>" \
-                    "<li>Your password must include of one or more numerical digits</li>" \
-                    "<li>Your password must include of special characters, such as @, #, $</li>" \
+                    "<li>Your password can't be too similar to " \
+                    "your other personal information</li>" \
+                    "<li>Your password must contain " \
+                    "at least 14 characters</li>" \
+                    "<li>Your password can't be a " \
+                    "commonly used password</li>" \
+                    "<li>Your password can't be " \
+                    "entirely numeric</li>" \
+                    "<li>Your password must not be " \
+                    "the same as the current password</li>" \
+                    "<li>Your password must use of " \
+                    "both uppercase and lowercase letters</li>" \
+                    "<li>Your password must include " \
+                    "of one or more numerical digits</li>" \
+                    "<li>Your password must include " \
+                    "of special characters, such as @, #, $</li>" \
                     "</ul>"
         self.fields['new_password1'].help_text = help_text
 
@@ -104,10 +112,12 @@ class CustomChangePasswordForm(PasswordChangeForm):
         new_password2 = self.cleaned_data.get('new_password2')
 
         if check_password(new_password1, self.user.password):
-            raise forms.ValidationError('Your password must not be the same as the current password')
+            raise forms.ValidationError('Your password must not be '
+                                        'the same as the current password')
 
         if new_password1 != new_password2:
-            raise forms.ValidationError('Your new password and confirmation do not match')
+            raise forms.ValidationError('Your new password and '
+                                        'confirmation do not match')
 
         characters = set(new_password1)
 
@@ -116,13 +126,16 @@ class CustomChangePasswordForm(PasswordChangeForm):
         digit = any(letter.isdigit() for letter in characters)
 
         if not upper:
-            raise forms.ValidationError('Your password must use of both uppercase and lowercase letters')
+            raise forms.ValidationError('Your password must use of '
+                                        'both uppercase and lowercase letters')
 
         if not lower:
-            raise forms.ValidationError('Your password must use of both uppercase and lowercase letters')
+            raise forms.ValidationError('Your password must use of '
+                                        'both uppercase and lowercase letters')
 
         if not digit:
-            raise forms.ValidationError('Your password must include of one or more numerical digits')
+            raise forms.ValidationError('Your password must include '
+                                        'of one or more numerical digits')
 
         special_characters = ["@", "#", "$"]
         check = False
@@ -131,14 +144,18 @@ class CustomChangePasswordForm(PasswordChangeForm):
                 check = True
 
         if not check:
-            raise forms.ValidationError('Your password must include of special characters, such as @, #, $')
+            raise forms.ValidationError('Your password must include of '
+                                        'special characters, such as @, #, $')
 
         first_name = self.user.profile.first_name.lower()
         last_name = self.user.profile.last_name.lower()
 
         if first_name in new_password1.lower():
-            raise forms.ValidationError('Your password cannot be too similar to your other personal information')
+            raise forms.ValidationError('Your password cannot be too '
+                                        'similar to your other personal '
+                                        'information')
 
         if last_name in new_password1.lower():
-            raise forms.ValidationError('Your password cannot be too similar to your other personal information')
-
+            raise forms.ValidationError('Your password cannot be too '
+                                        'similar to your other personal '
+                                        'information')

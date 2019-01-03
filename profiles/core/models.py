@@ -5,6 +5,7 @@ from django.utils.safestring import mark_safe
 from image_cropping import ImageRatioField
 from django.utils.text import slugify
 
+
 class Profile(models.Model):
     """Profile Model"""
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -24,7 +25,8 @@ class Profile(models.Model):
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify("{}-{}-{}".format(self.first_name.lower(), self.last_name.lower(), self.id))
+        self.slug = slugify("{}-{}-{}".format(self.first_name.lower(),
+                                              self.last_name.lower(), self.id))
         super().save(*args, **kwargs)
 
     def __str__(self):
