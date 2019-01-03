@@ -1,17 +1,16 @@
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.hashers import check_password # - finish this
+from django.contrib.auth.hashers import check_password
 from bootstrap_datepicker_plus import DatePickerInput
 from zxcvbn_password.fields import PasswordField, PasswordConfirmationField
 from markdownx.fields import MarkdownxFormField
 from django import forms
 from .models import Profile
 from django.core.validators import MinLengthValidator
-
 from PIL import Image
-from django.core.files import File
 
 
 class ProfileForm(forms.ModelForm):
+    """Profile Form + Fields for Photo Processing"""
     x = forms.FloatField(widget=forms.HiddenInput(), required=False)
     y = forms.FloatField(widget=forms.HiddenInput(), required=False)
     width = forms.FloatField(widget=forms.HiddenInput(), required=False)
@@ -42,6 +41,7 @@ class ProfileForm(forms.ModelForm):
         }
 
     def clean(self):
+        """Clean the whole form"""
         cleaned_data = super().clean()
         email = cleaned_data.get('email')
         verify = cleaned_data.get('email_verify')
@@ -50,6 +50,7 @@ class ProfileForm(forms.ModelForm):
             raise forms.ValidationError('Emails do not match')
 
     def save(self):
+        """Override the Save method for saving the crop photo"""
         photo = super().save()
 
         x = self.cleaned_data.get('x')
@@ -68,6 +69,10 @@ class ProfileForm(forms.ModelForm):
 
 
 class CustomChangePasswordForm(PasswordChangeForm):
+    """Extending Password Change Form
+    Overriding help_text
+
+    """
     new_password1 = PasswordField()
     new_password2 = PasswordConfirmationField(confirm_with="new_password1")
 
@@ -94,10 +99,15 @@ class CustomChangePasswordForm(PasswordChangeForm):
         ]
 
     def clean_new_password1(self):
+        """Validating the Password Fields"""
         new_password1 = self.cleaned_data.get('new_password1')
+        new_password2 = self.cleaned_data.get('new_password2')
 
         if check_password(new_password1, self.user.password):
             raise forms.ValidationError('Your password must not be the same as the current password')
+
+        if new_password1 != new_password2:
+            raise forms.ValidationError('Your new password and confirmation do not match')
 
         characters = set(new_password1)
 
@@ -131,55 +141,4 @@ class CustomChangePasswordForm(PasswordChangeForm):
 
         if last_name in new_password1.lower():
             raise forms.ValidationError('Your password cannot be too similar to your other personal information')
-
-    """
-    def clean_new_password1(self):
-        data = self.cleaned_data['new_password1']
-        if len(data) < 14:
-            raise forms.ValidationError('Password is too short')
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        confirm_password = cleaned_data.get('old_password')
-        if not check_password(confirm_password, self.user.password):
-            raise forms.ValidationError('That is not the old password')
-
-        new_password1 = cleaned_data.get('new_password1')
-
-        characters = set(new_password1)
-
-        lower = any(letter.islower() for letter in characters)
-        upper = any(letter.isupper() for letter in characters)
-        digit = any(letter.isdigit() for letter in characters)
-
-        if not upper:
-            raise forms.ValidationError('Password has no upper characters')
-
-        if not lower:
-            raise forms.ValidationError('Password has no lower characters')
-
-        if not digit:
-            raise forms.ValidationError('Password has no numerical character')
-
-
-        special_characters = ["@", "#", "$"]
-        check = False
-        for character in special_characters:
-            if character in new_password1:
-                check = True
-
-        if not check:
-            raise forms.ValidationError('Password has no special characters, such as @, #, $.')
-
-        first_name = self.user.profile.first_name.lower()
-        last_name = self.user.profile.last_name.lower()
-
-        if first_name in new_password1.lower():
-            raise forms.ValidationError('Password contains your first name or last name.')
-
-        if last_name in new_password1.lower():
-            raise forms.ValidationError('Password contains your first name or last name.')
-            
-    """
 

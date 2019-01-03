@@ -1,14 +1,12 @@
 from django.urls import reverse
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from image_cropping import ImageRatioField
-
-# import pytz
 from django.utils.text import slugify
 
 class Profile(models.Model):
+    """Profile Model"""
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=100)

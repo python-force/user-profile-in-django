@@ -2,7 +2,7 @@ from django.urls import reverse
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import Mineral
+from .models import Profile
 
 
 class MineralModelTests(TestCase):

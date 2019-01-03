@@ -9,6 +9,8 @@
 
 {% block body %}
 
+    <p>More <a href="#markdownhelp">markdown syntax help here</a>.</p>
+
     <h1>Edit {{ profile.first_name }} {{ profile.last_name }} Profile</h1>
     <form method="POST" enctype="multipart/form-data" action="" id="formUpload">
         {% csrf_token %}
@@ -54,7 +56,10 @@
         {% endfor %}
       </div>
 
-    {% markdown_cheatsheet %}
+    <div id="markdownhelp">
+        {% markdown_cheatsheet %}
+    </div>
+
 
 {% endblock %}
 

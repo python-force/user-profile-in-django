@@ -3,7 +3,7 @@ from .common import *
 
 # DEBUG
 # ------------------------------------------------------------------------------
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 # SECRET CONFIGURATION
