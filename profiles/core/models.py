@@ -16,7 +16,7 @@ class Profile(models.Model):
     email_verify = models.EmailField(max_length=100)
     date_of_birth = models.DateField(max_length=12)
     bio = models.TextField()
-    avatar = models.ImageField(blank=True)
+    avatar = models.ImageField(blank=True, upload_to='avatar')
     avatar_cropping = ImageRatioField('avatar', '430x360')
     city = models.CharField(max_length=255, blank=True)
     state = models.CharField(max_length=255, blank=True)
