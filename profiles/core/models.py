@@ -2,21 +2,21 @@ from django.urls import reverse
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
-from image_cropping import ImageRatioField
 from django.utils.text import slugify
+from django.utils import timezone
 
 
 class Profile(models.Model):
     """Profile Model"""
+    pub_date = models.DateTimeField(default=timezone.now)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     email_verify = models.EmailField(max_length=100)
     date_of_birth = models.DateField(max_length=12)
-    bio = models.TextField()
+    bio = models.TextField(blank=True)
     avatar = models.ImageField(blank=True, upload_to='avatar')
-    avatar_cropping = ImageRatioField('avatar', '430x360')
     city = models.CharField(max_length=255, blank=True)
     state = models.CharField(max_length=255, blank=True)
     country_of_residence = models.CharField(max_length=255, blank=True)
