@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils import timezone
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 
 class Profile(models.Model):
@@ -40,10 +38,3 @@ class Profile(models.Model):
 
     def display_bio(self):
         return mark_safe(self.bio)
-
-    @receiver(post_save, sender=User, dispatch_uid='save_new_user_profile')
-    def update_user_profile(sender, instance, created, **kwargs):
-        user = instance
-        if created:
-            profile = Profile(user=user)
-            profile.save()
