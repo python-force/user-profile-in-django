@@ -107,6 +107,15 @@ class CustomChangePasswordForm(PasswordChangeForm):
             'new_password2',
         ]
 
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password1 = cleaned_data.get('new_password1')
+        new_password2 = cleaned_data.get('new_password2')
+
+        if new_password1 != new_password2:
+            raise forms.ValidationError('Your new password and '
+                                        'confirmation do not match')
+
     def clean_new_password1(self):
         """Validating the Password Fields"""
         new_password1 = self.cleaned_data.get('new_password1')
@@ -158,12 +167,3 @@ class CustomChangePasswordForm(PasswordChangeForm):
                                         'information')
 
         return new_password1
-
-    def clean(self):
-        cleaned_data = super().clean()
-        new_password1 = cleaned_data.get('new_password1')
-        new_password2 = cleaned_data.get('new_password2')
-
-        if new_password1 != new_password2:
-            raise forms.ValidationError('Your new password and '
-                                        'confirmation do not match')
