@@ -108,6 +108,9 @@ class CustomChangePasswordForm(PasswordChangeForm):
         ]
 
     def clean(self):
+        """Clean is first in order not to have not matched
+        error if other validation fails
+        """
         cleaned_data = super().clean()
         new_password1 = cleaned_data.get('new_password1')
         new_password2 = cleaned_data.get('new_password2')
@@ -117,7 +120,7 @@ class CustomChangePasswordForm(PasswordChangeForm):
                                         'confirmation do not match')
 
     def clean_new_password1(self):
-        """Validating the Password Fields"""
+        """Validating the Password1 Field"""
         new_password1 = self.cleaned_data.get('new_password1')
         new_password2 = self.cleaned_data.get('new_password2')
 
