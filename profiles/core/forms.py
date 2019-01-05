@@ -7,6 +7,7 @@ from django import forms
 from .models import Profile
 from django.core.validators import MinLengthValidator
 from PIL import Image
+import pdb
 
 
 class ProfileForm(forms.ModelForm):
@@ -155,6 +156,14 @@ class CustomChangePasswordForm(PasswordChangeForm):
             raise forms.ValidationError('Your password cannot be too '
                                         'similar to your other personal '
                                         'information')
+        return new_password1
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password1 = cleaned_data.get('new_password1')
+        new_password2 = cleaned_data.get('new_password2')
+        print(new_password1)
+        print(new_password2)
 
         if new_password1 != new_password2:
             raise forms.ValidationError('Your new password and '
