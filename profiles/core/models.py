@@ -10,8 +10,8 @@ class Profile(models.Model):
     """Profile Model"""
     pub_date = models.DateTimeField(default=timezone.now)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=50, blank=True, null=True)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(max_length=100, blank=True, null=True)
     email_verify = models.EmailField(max_length=100, blank=True, null=True)
     date_of_birth = models.DateField(max_length=12, blank=True, null=True)
