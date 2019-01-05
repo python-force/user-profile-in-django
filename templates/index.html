@@ -7,6 +7,8 @@
     {% if profiles %}
         {% for profile in profiles %}
             <a href="{{ profile.get_absolute_url }}"><h1>{{ profile.first_name }} {{ profile.last_name }}</h1></a>
+            <a href="{% url "edit-profile" profile.slug %}" class="button">Edit</a>
+            <a href="{% url "change-password" profile.slug %}" class="button">Change Password</a>
         {% endfor %}
     {% else %}
         <p>No Profile</p>
