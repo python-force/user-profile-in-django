@@ -115,10 +115,6 @@ class CustomChangePasswordForm(PasswordChangeForm):
             raise forms.ValidationError('Your password must not be '
                                         'the same as the current password')
 
-        if new_password1 != new_password2:
-            raise forms.ValidationError('Your new password and '
-                                        'confirmation do not match')
-
         characters = set(new_password1)
 
         lower = any(letter.islower() for letter in characters)
@@ -159,3 +155,7 @@ class CustomChangePasswordForm(PasswordChangeForm):
             raise forms.ValidationError('Your password cannot be too '
                                         'similar to your other personal '
                                         'information')
+
+        if new_password1 != new_password2:
+            raise forms.ValidationError('Your new password and '
+                                        'confirmation do not match')
