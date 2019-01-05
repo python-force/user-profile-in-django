@@ -34,7 +34,6 @@ class Profile(models.Model):
             self.slug = slugify('profile {}'.format(self.id))
         super().save()
 
-
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
 

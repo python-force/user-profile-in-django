@@ -156,6 +156,7 @@ class CustomChangePasswordForm(PasswordChangeForm):
             raise forms.ValidationError('Your password cannot be too '
                                         'similar to your other personal '
                                         'information')
+
         return new_password1
 
     def clean(self):
